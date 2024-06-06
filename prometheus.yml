@@ -1,12 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: infocare-prometheus
+  name: ic-prometheus
   labels:
-    app.kubernetes.io/name: infocare-prometheus
+    app.kubernetes.io/name: ic-prometheus
 spec:
-  imagePullSecrets:
-  - name: ghcr-login-secret
   containers:
   - name: prometheus-container
     image: docker.io/prom/prometheus:v2.47.0
@@ -19,17 +17,17 @@ spec:
         cpu: "500m"
     ports:
       - containerPort: 9090
-        name: prometheus-port
+        name: ic-prom-port
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus-cluster-ip
+  name: ic-prom-cip
 spec:
   selector:
-    app.kubernetes.io/name: infocare-prometheus
+    app.kubernetes.io/name: ic-prometheus
   ports:
-  - name: prometheus-port
+  - name: ic-prom-port
     protocol: TCP
     port: 9090
-    targetPort: prometheus-port
+    targetPort: ic-prom-port

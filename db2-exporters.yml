@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: infocare-db2-exporters
+  name: ic-db2-exporters
   labels:
-    app.kubernetes.io/name: infocare-db2-exporters
+    app.kubernetes.io/name: ic-db2-exporters
 spec:
   containers:
-  - name: infocare-db2-exporter1-container
+  - name: ic-db2-exporter1-container
     image: docker.io/infocura/infocare-db2-exporter:latest
     resources:
       limits:
@@ -52,10 +52,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: infocare-db2-exporters-cluster-ip
+  name: ic-db2-exporters-cip
 spec:
   selector:
-    app.kubernetes.io/name: infocare-db2-exporters
+    app.kubernetes.io/name: ic-db2-exporters
   ports:
   - name: ic-db2exp1-port
     protocol: TCP

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: infocare-remote-agent-configmap
+  name: ic-remote-agent-cm
 data:
   config.river: |
     logging {
@@ -31,12 +31,12 @@ data:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: infocare-remote-agent
+  name: ic-remote-agent
   labels:
-    app.kubernetes.io/name: infocare-remote-agent
+    app.kubernetes.io/name: ic-remote-agent
 spec:
   containers:
-  - name: infocare-remote-agent-container
+  - name: ic-remote-agent-container
     image: docker.io/infocura/infocare-remote-agent:latest
     resources:
       limits:
@@ -52,17 +52,17 @@ spec:
   volumes:
   - name: config-volume
     configMap: 
-      name: infocare-remote-agent-configmap
+      name: ic-remote-agent-cm
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: infocare-remote-agent-cluster-ip
+  name: ic-remote-agent-cip
 spec:
   selector:
-    app: infocare-remote-agent
+    app: ic-remote-agent
   ports:
   - port: 12345
     targetPort: ic-agent-port
