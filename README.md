@@ -1,2 +1,2 @@
-# infocare
-Public repository to host packages
+# infocare-k8s
+Deploy Infocare on Kubernetes
