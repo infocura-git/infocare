@@ -7,11 +7,6 @@ private-datasource-connect-prod-eu-west-2.grafana.net:22
 private-datasource-connect-api-prod-eu-west-2.grafana.net:443
 ``` 
 
-#### Database exporters
-In order to collect metrics from any database, the relevant exporter need to run on a network that allows ingress traffic from the database servers.
-
-Conversly the database servers should allow egress traffic toward the database exorters.
-
 #### Dashboards
 In order to access the local dashboards of the Infocare deplyment, the network must allow ingress traffic towards the infocare-container.
 
