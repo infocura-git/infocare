@@ -7,8 +7,6 @@ private-datasource-connect-prod-eu-west-2.grafana.net:22
 private-datasource-connect-api-prod-eu-west-2.grafana.net:443
 ``` 
 
-The `<cluster>` is displayed in the grafana UI (under **Connections > Private data source connections > Configuration Details**).
-
 #### Database exporters
 In order to collect metrics from any database, the relevant exporter need to run on a network that allows ingress traffic from the database servers.
 
