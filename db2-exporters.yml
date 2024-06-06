@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: infocare-db2-exporters
+  labels:
+    app.kubernetes.io/name: infocare-db2-exporters
+spec:
+  containers:
+  - name: infocare-db2-exporter1-container
+    image: docker.io/infocura/infocare-db2-exporter:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 9953
+        name: ic-db2exp1-port
+    env:
+    - name: DB_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: ic-exporters-config
+          key: exporter.db_host
+    - name: DB_PORT
+      valueFrom:
+        configMapKeyRef:
+          name: ic-exporters-config
+          key: exporter.db_port
+    - name: DB_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: ic-exporters-config
+          key: exporter.db_name
+    - name: DB_USER
+      valueFrom:
+        secretKeyRef:
+          key: IC_DB_USER
+          name: ic-db-user
+    - name: DB_PASS
+      valueFrom:
+        secretKeyRef:
+          key: IC_DB_PASS
+          name: ic-db-user
+    command:
+      - /opt/run
+      - $(DB_HOST)
+      - $(DB_PORT)
+      - $(DB_NAME)
+      - $(DB_USER)
+      - $(DB_PASS)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infocare-db2-exporters-cluster-ip
+spec:
+  selector:
+    app.kubernetes.io/name: infocare-db2-exporters
+  ports:
+  - name: ic-db2exp1-port
+    protocol: TCP
+    port: 9953
+    targetPort: ic-db2exp1-port

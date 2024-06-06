@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infocare-remote-agent-configmap
+data:
+  config.river: |
+    logging {
+        level = "warn"
+    }
+    prometheus.scrape "default" {
+        scrape_interval = "10s"
+        targets = concat(
+                [{
+                        job         = "db2metrics",
+                        __address__ = "infocare-db2-exporters-cluster-ip:9953",
+                }],
+        )
+
+        forward_to = [
+                prometheus.remote_write.local_prom.receiver,
+        ]
+    }
+    prometheus.remote_write "local_prom" {
+        endpoint {
+                url = "http://prometheus-cluster-ip:9090/api/v1/write"
+        }
+    }
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: infocare-remote-agent
+  labels:
+    app.kubernetes.io/name: infocare-remote-agent
+spec:
+  containers:
+  - name: infocare-remote-agent-container
+    image: docker.io/infocura/infocare-remote-agent:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - name: ic-agent-port
+        containerPort: 12345
+    volumeMounts:
+    - name: config-volume
+      mountPath: "/etc/agent/config.river"
+      subPath: config.river
+  volumes:
+  - name: config-volume
+    configMap: 
+      name: infocare-remote-agent-configmap
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: infocare-remote-agent-cluster-ip
+spec:
+  selector:
+    app: infocare-remote-agent
+  ports:
+  - port: 12345
+    targetPort: ic-agent-port
