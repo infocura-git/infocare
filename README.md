@@ -1,3 +1,8 @@
+### Monitoring User
+To be able to collect metrics from a database, a monitoring user should be defined with the right privileges.
+A file containing all the grants is provided at _sql/monitor-grants.sql_.  
+If you chose to name the monitoring user anything different then *infocare*, you will need to adapt this file accordingly.
+
 ### Network Traffic Rules
 #### Grafana Cloud
 To establish an SSH connection to Grafana Cloud, the PDC agent must run on a network that allows internet egress to the following endpoints: 
