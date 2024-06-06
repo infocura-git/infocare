@@ -9,7 +9,7 @@ data:
     - name: Prometheus
       type: prometheus
       orgId: 1
-      url: http://prometheus-cluster-ip:9090
+      url: http://ic-prom-cip:9090
       basicAuth: false
       isDefault: true
       version: 1

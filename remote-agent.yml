@@ -12,7 +12,7 @@ data:
         targets = concat(
                 [{
                         job         = "db2metrics",
-                        __address__ = "infocare-db2-exporters-cluster-ip:9953",
+                        __address__ = "ic-db2-exporters-cip:9953",
                 }],
         )
 
@@ -22,7 +22,7 @@ data:
     }
     prometheus.remote_write "local_prom" {
         endpoint {
-                url = "http://prometheus-cluster-ip:9090/api/v1/write"
+                url = "http://ic-prom-cip:9090/api/v1/write"
         }
     }
 
